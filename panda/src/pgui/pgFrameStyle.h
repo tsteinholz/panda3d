@@ -74,14 +74,14 @@ PUBLISHED:
 
 public:
   bool xform(const LMatrix4 &mat);
-  NodePath generate_into(const NodePath &parent, const LVecBase4 &frame,
-                         int sort = 0);
+  NodePath generate_into(const std::string &name, const NodePath &parent,
+                         const LVecBase4 &frame, int sort = 0);
 
 private:
-  PT(PandaNode) generate_flat_geom(const LVecBase4 &frame);
-  PT(PandaNode) generate_bevel_geom(const LVecBase4 &frame, bool in);
-  PT(PandaNode) generate_groove_geom(const LVecBase4 &frame, bool in);
-  PT(PandaNode) generate_texture_border_geom(const LVecBase4 &frame);
+  PT(PandaNode) generate_flat_geom(const std::string &name, const LVecBase4 &frame);
+  PT(PandaNode) generate_bevel_geom(const std::string &name, const LVecBase4 &frame, bool in);
+  PT(PandaNode) generate_groove_geom(const std::string &name, const LVecBase4 &frame, bool in);
+  PT(PandaNode) generate_texture_border_geom(const std::string &name, const LVecBase4 &frame);
 
 private:
   Type _type;

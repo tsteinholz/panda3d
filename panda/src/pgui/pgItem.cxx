@@ -1228,7 +1228,7 @@ update_frame(int state) {
   if (has_frame()) {
     NodePath &root = do_get_state_def(state);
     _state_defs[state]._frame =
-      _state_defs[state]._frame_style.generate_into(root, _frame);
+      _state_defs[state]._frame_style.generate_into(get_name(), root, _frame);
   }
 }
 

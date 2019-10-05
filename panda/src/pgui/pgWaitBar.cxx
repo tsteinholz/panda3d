@@ -150,7 +150,7 @@ update() {
     frac = std::max(std::min(frac, (PN_stdfloat)1.0), (PN_stdfloat)0.0);
     bar_frame[1] = bar_frame[0] + frac * (bar_frame[1] - bar_frame[0]);
 
-    _bar = _bar_style.generate_into(root, bar_frame, 1);
+    _bar = _bar_style.generate_into(get_name(), root, bar_frame, 1);
   }
 
   // Indicate that the bar is current for this state.

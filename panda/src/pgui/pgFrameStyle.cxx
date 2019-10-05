@@ -150,8 +150,8 @@ xform(const LMatrix4 &mat) {
  * nothing is generated.
  */
 NodePath PGFrameStyle::
-generate_into(const NodePath &parent, const LVecBase4 &frame,
-              int sort) {
+generate_into(const std::string &name,
+              const NodePath &parent, const LVecBase4 &frame, int sort) {
   PT(PandaNode) new_node;
 
   LPoint2 center((frame[0] + frame[1]) / 2.0f,
@@ -167,27 +167,27 @@ generate_into(const NodePath &parent, const LVecBase4 &frame,
     return NodePath();
 
   case T_flat:
-    new_node = generate_flat_geom(scaled_frame);
+    new_node = generate_flat_geom(name, scaled_frame);
     break;
 
   case T_bevel_out:
-    new_node = generate_bevel_geom(scaled_frame, false);
+    new_node = generate_bevel_geom(name, scaled_frame, false);
     break;
 
   case T_bevel_in:
-    new_node = generate_bevel_geom(scaled_frame, true);
+    new_node = generate_bevel_geom(name, scaled_frame, true);
     break;
 
   case T_groove:
-    new_node = generate_groove_geom(scaled_frame, true);
+    new_node = generate_groove_geom(name, scaled_frame, true);
     break;
 
   case T_ridge:
-    new_node = generate_groove_geom(scaled_frame, false);
+    new_node = generate_groove_geom(name, scaled_frame, false);
     break;
 
   case T_texture_border:
-    new_node = generate_texture_border_geom(scaled_frame);
+    new_node = generate_texture_border_geom(name, scaled_frame);
     break;
 
   default:
@@ -207,7 +207,7 @@ generate_into(const NodePath &parent, const LVecBase4 &frame,
  * Generates the GeomNode appropriate to a T_flat frame.
  */
 PT(PandaNode) PGFrameStyle::
-generate_flat_geom(const LVecBase4 &frame) {
+generate_flat_geom(const std::string &name, const LVecBase4 &frame) {
   PT(GeomNode) gnode = new GeomNode("flat");
 
   PN_stdfloat left = frame[0];
@@ -223,7 +223,7 @@ generate_flat_geom(const LVecBase4 &frame) {
   }
 
   PT(GeomVertexData) vdata = new GeomVertexData
-    ("PGFrame", format, Geom::UH_static);
+    (name, format, Geom::UH_static);
 
   GeomVertexWriter vertex(vdata, InternalName::get_vertex());
   vertex.add_data3(LPoint3::rfu(left, 0.0f, top));
@@ -264,7 +264,7 @@ generate_flat_geom(const LVecBase4 &frame) {
  * Generates the GeomNode appropriate to a T_bevel_in or T_bevel_out frame.
  */
 PT(PandaNode) PGFrameStyle::
-generate_bevel_geom(const LVecBase4 &frame, bool in) {
+generate_bevel_geom(const std::string &name, const LVecBase4 &frame, bool in) {
 /*
  * Colors: * * * * * * * * * * * * * * * * * * * * * * * * *
  * * * *   *               ctop                *   * *     *
@@ -343,7 +343,7 @@ generate_bevel_geom(const LVecBase4 &frame, bool in) {
   }
 
   PT(GeomVertexData) vdata = new GeomVertexData
-    ("PGFrame", format, Geom::UH_static);
+    (name, format, Geom::UH_static);
 
   GeomVertexWriter vertex(vdata, InternalName::get_vertex());
   GeomVertexWriter color(vdata, InternalName::get_color());
@@ -438,7 +438,7 @@ generate_bevel_geom(const LVecBase4 &frame, bool in) {
  * Generates the GeomNode appropriate to a T_groove or T_ridge frame.
  */
 PT(PandaNode) PGFrameStyle::
-generate_groove_geom(const LVecBase4 &frame, bool in) {
+generate_groove_geom(const std::string &name, const LVecBase4 &frame, bool in) {
 /*
  * Colors: * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * * * *   *                   ctop                    *   * *     *
@@ -533,7 +533,7 @@ generate_groove_geom(const LVecBase4 &frame, bool in) {
     format = GeomVertexFormat::get_v3cp();
   }
   PT(GeomVertexData) vdata = new GeomVertexData
-    ("PGFrame", format, Geom::UH_static);
+    (name, format, Geom::UH_static);
 
   GeomVertexWriter vertex(vdata, InternalName::get_vertex());
   GeomVertexWriter color(vdata, InternalName::get_color());
@@ -670,7 +670,7 @@ generate_groove_geom(const LVecBase4 &frame, bool in) {
  * Generates the GeomNode appropriate to a T_texture_border frame.
  */
 PT(PandaNode) PGFrameStyle::
-generate_texture_border_geom(const LVecBase4 &frame) {
+generate_texture_border_geom(const std::string &name, const LVecBase4 &frame) {
 /*
  * Vertices: tristrip 1: 0 * * * 2 * * * * * * * * * * * * * 4 * * * 6 *     *
  * *                     * * * *     * * *   *   *         * * * * * *       *
@@ -709,7 +709,7 @@ generate_texture_border_geom(const LVecBase4 &frame) {
   }
 
   PT(GeomVertexData) vdata = new GeomVertexData
-    ("PGFrame", format, Geom::UH_static);
+    (name, format, Geom::UH_static);
 
   GeomVertexWriter vertex(vdata, InternalName::get_vertex());
 

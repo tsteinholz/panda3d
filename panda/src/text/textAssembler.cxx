@@ -1137,8 +1137,29 @@ generate_quads(GeomNode *geom_node, const QuadMap &quad_map) {
     GeomTextGlyph::Glyphs glyphs;
     glyphs.reserve(quads.size());
 
+#ifndef NDEBUG
+    // Generate a debug name.
+    std::string name = "text \"";
+
+    for (const QuadDef &quad : quads) {
+      if (name.size() >= 28) {
+        name += "...";
+        break;
+      }
+      int c = quad._glyph->get_character();
+      if (c < 127 && isprint(c)) {
+        name += (char)c;
+      } else {
+        name += '?';
+      }
+    }
+    name += '"';
+#else
+    std::string name = "text";
+#endif
+
     const GeomVertexFormat *format = GeomVertexFormat::get_v3t2();
-    PT(GeomVertexData) vdata = new GeomVertexData("text", format, Geom::UH_static);
+    PT(GeomVertexData) vdata = new GeomVertexData(name, format, Geom::UH_static);
 
     Thread *current_thread = Thread::get_current_thread();
 

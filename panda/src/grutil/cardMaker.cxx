@@ -85,7 +85,7 @@ generate() {
   }
 
   PT(GeomVertexData) vdata = new GeomVertexData
-    ("card", format, Geom::UH_static);
+    (has_name() ? get_name() : "card", format, Geom::UH_static);
   GeomVertexWriter vertex(vdata, InternalName::get_vertex());
 
   vertex.add_data3(_ul_pos);
