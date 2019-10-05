@@ -62,12 +62,20 @@ draw(bool force, Thread *current_thread) {
     if (object->_draw_callback == nullptr) {
       nassertd(object->_geom != nullptr) continue;
 
+#ifndef NDEBUG
+      _gsg->push_group_marker(object->_munged_data->get_name());
+#endif
+
       _gsg->set_state_and_transform(object->_state, object->_internal_transform);
 
       GeomPipelineReader geom_reader(object->_geom, current_thread);
       GeomVertexDataPipelineReader data_reader(object->_munged_data, current_thread);
       data_reader.check_array_readers();
       geom_reader.draw(_gsg, &data_reader, force);
+
+#ifndef NDEBUG
+      _gsg->pop_group_marker();
+#endif
     } else {
       // It has a callback associated.
       object->draw_callback(_gsg, force, current_thread);

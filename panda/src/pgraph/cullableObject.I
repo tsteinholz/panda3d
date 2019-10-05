@@ -83,8 +83,14 @@ draw(GraphicsStateGuardianBase *gsg, bool force, Thread *current_thread) {
     // Now the callback has taken care of drawing.
   } else {
     nassertv(_geom != nullptr);
+#ifndef NDEBUG
+    gsg->push_group_marker(_munged_data->get_name());
+#endif
     gsg->set_state_and_transform(_state, _internal_transform);
     draw_inline(gsg, force, current_thread);
+#ifndef NDEBUG
+    gsg->pop_group_marker();
+#endif
   }
 }
 
