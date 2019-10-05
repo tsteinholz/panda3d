@@ -81,8 +81,8 @@ do_clean_realloc(size_t reserved_size) {
       return;
     }
 
-    if (gobj_cat.is_debug()) {
-      gobj_cat.debug()
+    if (gobj_cat.is_spam()) {
+      gobj_cat.spam()
         << this << ".clean_realloc(" << reserved_size << ")\n";
     }
 
@@ -114,8 +114,8 @@ do_clean_realloc(size_t reserved_size) {
 void VertexDataBuffer::
 do_unclean_realloc(size_t reserved_size) {
   if (reserved_size != _reserved_size || _resident_data == nullptr) {
-    if (gobj_cat.is_debug()) {
-      gobj_cat.debug()
+    if (gobj_cat.is_spam()) {
+      gobj_cat.spam()
         << this << ".unclean_realloc(" << reserved_size << ")\n";
     }
 

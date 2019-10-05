@@ -716,8 +716,8 @@ reserve_num_rows(int n) {
   new_reserved_size = max(_cdata->_buffer.get_size(), new_reserved_size);
   size_t orig_reserved_size = _cdata->_buffer.get_reserved_size();
 
-  if (gobj_cat.is_debug()) {
-    gobj_cat.debug()
+  if (gobj_cat.is_spam()) {
+    gobj_cat.spam()
       << _object << ".reserve_num_rows(" << n << "), size = " << new_reserved_size << "\n";
   }
 
