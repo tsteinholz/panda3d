@@ -138,7 +138,8 @@ On macOS, you will need to download a set of precompiled thirdparty packages in 
 compile Panda3D, which can be acquired from [here](https://www.panda3d.org/download/panda3d-1.10.4.1/panda3d-1.10.4.1-tools-mac.tar.gz).
 
 After placing the thirdparty directory inside the panda3d source directory,
-you may build Panda3D using a command like the following:
+or setting the `MAKEPANDA_THIRDPARTY` environmental variable to the thirdparty
+directory, you may build Panda3D using a command like the following:
 
 ```bash
 python makepanda/makepanda.py --everything --installer

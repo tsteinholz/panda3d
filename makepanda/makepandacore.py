@@ -7,7 +7,7 @@
 
 import sys,os,time,stat,string,re,getopt,fnmatch,threading,signal,shutil,platform,glob,getpass,signal
 import subprocess
-from distutils import sysconfig
+from distutils import sysconfig, spawn
 
 if sys.version_info >= (3, 0):
     import pickle
@@ -2165,11 +2165,10 @@ def SdkLocatePython(prefer_thirdparty_python=False):
         sysroot = SDK.get("MACOSX", "")
         version = sysconfig.get_python_version()
 
-        py_fwx = "{0}/System/Library/Frameworks/Python.framework/Versions/{1}".format(sysroot, version)
+        py_fwx = spawn.find_executable('python3')
 
-        if not os.path.exists(py_fwx):
-            # Fall back to looking on the system.
-            py_fwx = "/Library/Frameworks/Python.framework/Versions/" + version
+        if not py_fwx:
+            py_fwx = spawn.find_executable('python')
 
         if not os.path.exists(py_fwx):
             exit("Could not locate Python installation at %s" % (py_fwx))
